@@ -2,7 +2,7 @@ import requests
 
 # Initialize Ollama client
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "gemma3:27b"
+MODEL_NAME = "qwen3:32b"
 
 # Store full document content
 full_document = ""
@@ -33,16 +33,17 @@ def generate_answer(question):
     else:
         doc_excerpt = full_document
 
-    prompt = f"""SVARBU: Atsakyk TIK lietuvių kalba!
+    prompt = f"""<|system|>SVARBU: Atsakyk TIK lietuvių kalba!
+Tu esi Lietuvos darbo teisės ekspertas. Atsakyk TIKSLIAI į klausimą remdamasis tik pateiktu dokumentu. Jei atsakymo nėra dokumente, pasakyk "Informacijos nėra dokumente".
 
-Tu esi Vadovybės Apsaugos Tarnybos tesininkas. Atsakyk į klausimą lietuvių kalba remdamasis dokumentu.
-
-Dokumento turinys:
+<|document|>
 {doc_excerpt}
 
-Klausimas: {question}
+<|user|>
+{question}
 
-Atsakymas lietuvių kalba:"""
+<|assistant|>
+Atsakymas lietuvių kalba remiantis dokumentu:"""
 
     try:
         payload = {
@@ -50,7 +51,9 @@ Atsakymas lietuvių kalba:"""
             "prompt": prompt,
             "stream": False,
             "options": {
-                "temperature": 0.3
+                "temperature": 0,
+                "top_p": 0.9,
+                "repeat_penalty": 1.1
             }
         }
         response = requests.post(OLLAMA_URL, json=payload)
