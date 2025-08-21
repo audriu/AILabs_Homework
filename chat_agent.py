@@ -1,14 +1,18 @@
 from smolagents import ToolCallingAgent, tool
 from smolagents.models import LiteLLMModel
+from ragas1 import generate_answer
 
 @tool
 def lietuvos_darbo_kodeksas_tool(question: str) -> str:
-    """Atsako į klausimus apie Lietuvos darbo kodeksą
+    """Atsako į klausimus apie Lietuvos darbo kodeksą. Visus klausimus susijusius su Lietuvos darbo teise.
     
     Args:
         question: Klausimas apie Lietuvos darbo kodeksą
     """
-    return f"Bandomasis atsakymas į Lietuvos darbo kodekso klausimą: '{question}' - Čia būtų pateikta reikiama informacija iš darbo kodekso."
+    print(f" =========== question {question}")
+    answer = generate_answer(question)
+    print(f" =========== answer {answer}")
+    return answer
 
 class ChatAgent:
     def __init__(self, model="alibayram/erurollm-9b-instruct"):
@@ -20,11 +24,8 @@ class ChatAgent:
     
     def chat(self, message: str) -> str:
         """Main chat function with smolagents"""
-        system_prompt = f"""Tu esi Vadovybės Apsaugos Tarnybos tesininkas robotas, kuris atsako į klausimus apie tarnybos nuostatus ir teises.
-        Atsakyk į klausimą remdamasis pateikta informacija. Naudotojas paklausė šio klausimo: {message}"""
-
         try:
-            response = self.agent.run(system_prompt)
+            response = self.agent.run(message)
             return str(response)
         except Exception as e:
             return f"Error: {str(e)}"

@@ -3,3 +3,5 @@ requests
 ollama
 smolagents
 litellm
+PyPDF2
+google.generativeai
