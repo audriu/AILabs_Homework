@@ -1,6 +1,6 @@
 from smolagents import ToolCallingAgent, tool
 from smolagents.models import LiteLLMModel
-from ragas1 import generate_answer
+from ragas import generate_answer
 
 @tool
 def lietuvos_darbo_kodeksas_tool(question: str) -> str:
