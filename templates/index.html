@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agentic Chat</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; background: #0f0f23; color: #e5e5e5; }
+        .container { max-width: 800px; margin: 0 auto; height: 100vh; display: flex; flex-direction: column; }
+        .header { padding: 20px; border-bottom: 1px solid #333; }
+        .messages { flex: 1; overflow-y: auto; padding: 20px; }
+        .message { margin: 10px 0; padding: 10px; border-radius: 8px; }
+        .user { background: #2563eb; margin-left: 20%; }
+        .assistant { background: #374151; margin-right: 20%; }
+        .input-area { padding: 20px; border-top: 1px solid #333; }
+        .input-box { width: 100%; padding: 12px; border: 1px solid #333; border-radius: 8px; background: #1f1f1f; color: #e5e5e5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Agentic Chat</h1>
+            <p>Chat with Ollama + Lithuanian Labor Code tool</p>
+        </div>
+        <div class="messages" id="messages"></div>
+        <div class="input-area">
+            <input type="text" class="input-box" id="messageInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+        </div>
+    </div>
+
+    <script>
+        function addMessage(content, role) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.textContent = content;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            input.value = '';
+
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+            
+            const data = await response.json();
+            addMessage(data.response, 'assistant');
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') sendMessage();
+        }
+    </script>
+</body>
+</html>
