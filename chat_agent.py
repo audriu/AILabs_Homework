@@ -3,12 +3,12 @@ from smolagents.models import LiteLLMModel
 
 @tool
 def lietuvos_darbo_kodeksas_tool(question: str) -> str:
-    """Answers questions about Lithuanian Labor Code (Lietuvos darbo kodeksas)
+    """Atsako į klausimus apie Lietuvos darbo kodeksą
     
     Args:
-        question: The question about Lithuanian Labor Code
+        question: Klausimas apie Lietuvos darbo kodeksą
     """
-    return f"Mock answer for Lithuanian Labor Code question: '{question}' - This would contain relevant information from the labor code."
+    return f"Bandomasis atsakymas į Lietuvos darbo kodekso klausimą: '{question}' - Čia būtų pateikta reikiama informacija iš darbo kodekso."
 
 class ChatAgent:
     def __init__(self, model="alibayram/erurollm-9b-instruct"):
@@ -20,8 +20,11 @@ class ChatAgent:
     
     def chat(self, message: str) -> str:
         """Main chat function with smolagents"""
+        system_prompt = f"""Tu esi Vadovybės Apsaugos Tarnybos tesininkas robotas, kuris atsako į klausimus apie tarnybos nuostatus ir teises.
+        Atsakyk į klausimą remdamasis pateikta informacija. Naudotojas paklausė šio klausimo: {message}"""
+
         try:
-            response = self.agent.run(message)
+            response = self.agent.run(system_prompt)
             return str(response)
         except Exception as e:
             return f"Error: {str(e)}"
