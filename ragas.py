@@ -26,10 +26,19 @@ def generate_answer(question):
     if not full_document:
         load_pdf("aktai/Darbo_Kodeksas.pdf")
 
-    # Truncate document to 128k to avoid overwhelming the model
-    if len(full_document) > 500000:
-        doc_excerpt = full_document[:500000]
-        print(f"!!! Document truncated !!! original size {len(full_document)}")
+    # Use smaller, more focused excerpt
+    if len(full_document) > 100000:
+        # Try to find relevant section first
+        question_lower = question.lower()
+        best_start = 0
+        for keyword in question_lower.split():
+            pos = full_document.lower().find(keyword)
+            if pos > 0:
+                best_start = max(0, pos - 10000)
+                break
+        
+        doc_excerpt = full_document[best_start:best_start + 100000]
+        print(f"Using excerpt from position {best_start}")
     else:
         doc_excerpt = full_document
 
@@ -51,9 +60,10 @@ Atsakymas lietuvių kalba remiantis dokumentu:"""
             "prompt": prompt,
             "stream": False,
             "options": {
-                "temperature": 0,
+                "temperature": 0.1,
                 "top_p": 0.9,
-                "repeat_penalty": 1.1
+                "repeat_penalty": 1.1,
+                "num_ctx": 8192
             }
         }
         response = requests.post(OLLAMA_URL, json=payload)

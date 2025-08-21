@@ -1,6 +1,6 @@
 from smolagents import ToolCallingAgent, tool
 from smolagents.models import LiteLLMModel
-from ragas import generate_answer
+from improved_ragas import generate_answer
 
 
 @tool
