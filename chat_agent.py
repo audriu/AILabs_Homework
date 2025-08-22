@@ -12,17 +12,20 @@ def lietuvos_darbo_kodeksas_tool(question: str) -> str:
     """
     print(f" =========== question {question}")
     answer = generate_answer(question)
-    print(f" =========== answer {answer}")
+    print(f" =========== answer \n{answer}")
+    print(f" =========== answer END ===========")
     return answer
 
 
 class ChatAgent:
     def __init__(self, model="alibayram/erurollm-9b-instruct"):
+        self.name = "Lietuvos darbo kodeksas"
         self.model = LiteLLMModel(model_id=f"ollama/{model}")
         self.agent = ToolCallingAgent(
             tools=[lietuvos_darbo_kodeksas_tool],
             model=self.model
         )
+        self.memory = self.agent.memory
 
     def chat(self, message: str) -> str:
         """Main chat function with smolagents"""

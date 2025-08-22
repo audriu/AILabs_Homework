@@ -2,6 +2,9 @@ flask
 requests
 ollama
 smolagents
+smolagents[gradio]
 litellm
 PyPDF2
 google.generativeai
+scikit-learn
+numpy

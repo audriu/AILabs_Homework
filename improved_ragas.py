@@ -3,7 +3,7 @@ import re
 from typing import List, Tuple
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "gemma3:4b"
+MODEL_NAME = "gemma3:27b"
 
 class DocumentChunker:
     def __init__(self, chunk_size=2000, overlap=200):
@@ -72,7 +72,7 @@ def generate_answer(question):
     context = "\n\n".join(relevant_chunks)
     
     prompt = f"""<|system|>
-Tu esi Lietuvos darbo teisės ekspertas. Atsakyk TIKSLIAI į klausimą remdamasis TIKTAI pateiktu kontekstu. 
+Tu esi Lietuvos darbo teisės ekspertas. Atsakyk TIKSLIAI į klausimą remdamasis TIKTAI pateiktu kontekstu. Pateik išsamų atsakymą.
 Jei atsakymo nėra kontekste, pasakyk "Informacijos nėra pateiktame kontekste".
 Atsakyk lietuvių kalba.
 
