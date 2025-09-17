@@ -1,28 +1,13 @@
-from smolagents import ToolCallingAgent, tool
+from smolagents import ToolCallingAgent
 from smolagents.models import LiteLLMModel
-from improved_ragas import generate_answer
-
-
-@tool
-def lietuvos_darbo_kodeksas_tool(question: str) -> str:
-    """Atsako į klausimus apie Lietuvos darbo kodeksą. Visus klausimus susijusius su Lietuvos darbo teise.
-    
-    Args:
-        question: Klausimas apie Lietuvos darbo kodeksą
-    """
-    print(f" =========== question {question}")
-    answer = generate_answer(question)
-    print(f" =========== answer \n{answer}")
-    print(f" =========== answer END ===========")
-    return answer
-
+from rag_tool import rag_tool
 
 class ChatAgent:
-    def __init__(self, model="alibayram/erurollm-9b-instruct"):
-        self.name = "Lietuvos darbo kodeksas"
+    def __init__(self, model="llama3.1:8b"):
+        self.name = "Tech support question"
         self.model = LiteLLMModel(model_id=f"ollama/{model}")
         self.agent = ToolCallingAgent(
-            tools=[lietuvos_darbo_kodeksas_tool],
+            tools=[rag_tool],
             model=self.model
         )
         self.memory = self.agent.memory
