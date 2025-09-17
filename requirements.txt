@@ -14,3 +14,10 @@ sentence-transformers
 datasets
 python-dotenv
 rank_bm25
+chromadb
+chainlit
+requests
+transformers
+sentence-transformers
+huggingface_hub
+pytest
