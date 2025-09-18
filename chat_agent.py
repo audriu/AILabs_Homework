@@ -1,4 +1,5 @@
-from smolagents import ToolCallingAgent
+from smolagents import ToolCallingAgent, LiteLLMModel
+from rag_tool import rag_tool
 
 
 class ChatAgent(ToolCallingAgent):
@@ -17,3 +18,8 @@ class ChatAgent(ToolCallingAgent):
             return str(response)
         except Exception as e:
             return f"Error: {str(e)}"
+
+
+model = LiteLLMModel(model_id=f"ollama/llama3.1:8b")
+system_prompt = "Only if the user mentions connectivity issues, ask for their country and device before troubleshooting. Otherwise, respond normally."
+agent = ChatAgent(model=model, tools=[rag_tool], system_prompt=system_prompt)

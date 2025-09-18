@@ -14,6 +14,12 @@
    ```
 4. Start the chatbot UI:
    ```bash
-   python main.py
+   python web_ui.py
    ```
-5. Open your browser and navigate to <http://localhost:5000> to interact with the chatbot.
+    Open your browser and navigate to <http://localhost:5000> to interact with the chatbot.
+
+5. To run ChainLit ui in the terminal.
+   ```bash
+   chainlit run chainlit_ui.py
+   ```
+    Open your browser and navigate to <http://localhost:8000> to interact with the chatbot.

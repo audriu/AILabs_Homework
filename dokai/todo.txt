@@ -1,8 +1,3 @@
-remove unused requirements
 Evaluate how accurately the system is able to respond, you can use our provided expected_answers.py
-Documentation of design decisions and assumptions must be provided in the code itself and the README file.
 invite donatas.vaiciukevicius@cybercare.cc as a collaborator.
 Walk us through your thought process in the comments of your code or README.
-There should be an easy way to run your solution. README is a perfect place to provide instructions for how to run your solution.
-We recommend using Hugging Face free LLM API for your LLM and embedding needs, however you’re free to use whatever you want.
-For the user interface, we recommend using chainlit for easy integration.

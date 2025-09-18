@@ -3,6 +3,7 @@
 .LSOverride
 Icon?
 chroma_db/
+.chainlit/
 ._*
 .idea
 .gradio/
