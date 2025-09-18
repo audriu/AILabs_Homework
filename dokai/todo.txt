@@ -1,3 +1,2 @@
 Evaluate how accurately the system is able to respond, you can use our provided expected_answers.py
 invite donatas.vaiciukevicius@cybercare.cc as a collaborator.
-Walk us through your thought process in the comments of your code or README.
