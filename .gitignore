@@ -1,3 +1,8 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
 .idea
 .gradio/
 __pycache__/

@@ -2,9 +2,11 @@ from smolagents import ToolCallingAgent
 
 
 class ChatAgent(ToolCallingAgent):
-    def __init__(self, model, tools=[]):
+    def __init__(self, model, tools=[], system_prompt=""):
         super().__init__(tools=tools, model=model)
         self.history = []
+        if system_prompt:
+            self.history.append({"role": "system", "content": system_prompt})
 
     def chat(self, message: str) -> str:
         self.history.append({"role": "user", "content": message})

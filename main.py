@@ -6,7 +6,8 @@ from rag_tool import rag_tool
 
 app = Flask(__name__)
 model = LiteLLMModel(model_id=f"ollama/llama3.1:8b")
-agent = ChatAgent(model=model, tools=[rag_tool])
+system_prompt = "Only if the user mentions connectivity issues, ask for their country and device before troubleshooting. Otherwise, respond normally."
+agent = ChatAgent(model=model, tools=[rag_tool], system_prompt=system_prompt)
 
 
 @app.route('/')
