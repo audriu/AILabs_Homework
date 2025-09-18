@@ -1,10 +1,18 @@
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
 from smolagents import Tool
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.retrievers import BM25Retriever
+import os
 
 
-def load_document(filename: str) -> list[Document]:
+def load_document(filename: str) -> Chroma:
+    chroma_dir = "./chroma_db"
+    if os.path.exists(chroma_dir):
+        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        vector_store = Chroma(persist_directory=chroma_dir, embedding_function=embeddings)
+        return vector_store
+    docs_processed = []
     if filename.endswith(".json"):
         import json
         with open(filename, "r", encoding="utf-8") as f:
@@ -20,31 +28,31 @@ def load_document(filename: str) -> list[Document]:
             separators=["\n\n", "\n", ".", " ", ""],
         )
         docs_processed = text_splitter.split_documents(source_docs)
-        return docs_processed
-    return []
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    vector_store = Chroma.from_documents(docs_processed, embeddings, persist_directory=chroma_dir)
+    return vector_store
 
 
 class RetrieverTool(Tool):
     name = "retriever"
-    description = "Uses lexical search to retrieve the parts of transformers documentation that could be most relevant to answer your query."
+    description = (
+        "Uses semantic search to retrieve the parts of documentation that could be most relevant to answer your query."
+    )
     inputs = {
         "query": {
             "type": "string",
-            "description": "The query to perform. This should be lexically close to your target documents. Use the affirmative form rather than a question.",
+            "description": "The query to perform. This should be semantically close to your target documents. Use the affirmative form rather than a question.",
         }
     }
     output_type = "string"
 
-    def __init__(self, docs, **kwargs):
+    def __init__(self, vector_store, **kwargs):
         super().__init__(**kwargs)
-        self.retriever = BM25Retriever.from_documents(docs, k=10)
+        self.vector_store = vector_store
 
     def forward(self, query: str) -> str:
         assert isinstance(query, str), "Your search query must be a string"
-
-        docs = self.retriever.invoke(
-            query,
-        )
+        docs = self.vector_store.similarity_search(query, k=3)
         return "\nRetrieved documents:\n" + "".join(
             [f"\n\n===== Document {str(i)} =====\n" + doc.page_content for i, doc in enumerate(docs)]
         )

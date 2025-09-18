@@ -2,6 +2,7 @@
 .AppleDouble
 .LSOverride
 Icon?
+chroma_db/
 ._*
 .idea
 .gradio/
