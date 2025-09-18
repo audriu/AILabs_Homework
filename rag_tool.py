@@ -18,8 +18,9 @@ def load_document(filename: str) -> Chroma:
         with open(filename, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        source_docs = [Document(page_content=doc["body"], metadata={"source": doc["url"], "title": doc["title"]}) for
-                       doc in data]
+        source_docs = [
+            Document(page_content=f"Title: {doc["title"]},\n Body: {doc["body"]}", metadata={"source": doc["url"]}) for
+            doc in data]
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=500,
             chunk_overlap=50,
@@ -52,10 +53,11 @@ class RetrieverTool(Tool):
 
     def forward(self, query: str) -> str:
         assert isinstance(query, str), "Your search query must be a string"
-        docs = self.vector_store.similarity_search(query, k=3)
+        docs = self.vector_store.similarity_search(query, k=5)
         return "\nRetrieved documents:\n" + "".join(
-            [f"\n\n===== Document {str(i)} =====\n" + doc.page_content for i, doc in enumerate(docs)]
-        )
+            [f'\n\n===== Document {i} =====\n content: {doc.page_content}'
+             + (f',\n article: {doc.metadata["source"]}\n' if "source" in doc.metadata else "\n")
+             for i, doc in enumerate(docs)])
 
 
 rag_tool = RetrieverTool(load_document("dokai/hc_articles.json"))

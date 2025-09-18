@@ -1,5 +1,4 @@
 remove unused requirements
-Along the answers we will add the article where this information is present.
 Evaluate how accurately the system is able to respond, you can use our provided expected_answers.py
 Documentation of design decisions and assumptions must be provided in the code itself and the README file.
 invite donatas.vaiciukevicius@cybercare.cc as a collaborator.
