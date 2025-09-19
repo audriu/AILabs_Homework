@@ -4,6 +4,7 @@
 Icon?
 chroma_db/
 .chainlit/
+chainlit.md
 ._*
 .idea
 .gradio/

@@ -1,5 +1,5 @@
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_chroma import Chroma
 from smolagents import Tool
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -22,11 +22,11 @@ def load_document(filename: str) -> Chroma:
             Document(page_content=f"Title: {doc["title"]},\n Body: {doc["body"]}", metadata={"source": doc["url"]}) for
             doc in data]
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=50,
+            chunk_size=1000,
+            chunk_overlap=100,
             add_start_index=True,
             strip_whitespace=True,
-            separators=["\n\n", "\n", ".", " ", ""],
+            separators=["\n\n", "\n", ".\n", " ", ""]
         )
         docs_processed = text_splitter.split_documents(source_docs)
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
@@ -37,7 +37,7 @@ def load_document(filename: str) -> Chroma:
 class RetrieverTool(Tool):
     name = "retriever"
     description = (
-        "Uses semantic search to retrieve the parts of documentation that could be most relevant to answer your query."
+        "Uses semantic search to retrieve the parts of comprehensive support knowledge base for NordVPN, covering everything from features and installation to troubleshooting and billing for various platforms."
     )
     inputs = {
         "query": {

@@ -26,12 +26,14 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         function addMessage(content, role) {
             const messages = document.getElementById('messages');
             const div = document.createElement('div');
             div.className = `message ${role}`;
-            div.textContent = content;
+            // Render markdown to HTML, preserving formatting and links
+            div.innerHTML = marked.parse(content);
             messages.appendChild(div);
             messages.scrollTop = messages.scrollHeight;
         }

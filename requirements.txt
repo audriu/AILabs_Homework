@@ -9,7 +9,9 @@ numpy
 smolagents
 pandas
 langchain
+langchain-chroma
 langchain-community
+langchain-huggingface
 sentence-transformers
 datasets
 python-dotenv

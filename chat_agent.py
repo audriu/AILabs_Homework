@@ -21,5 +21,11 @@ class ChatAgent(ToolCallingAgent):
 
 
 model = LiteLLMModel(model_id=f"ollama/llama3.1:8b")
-system_prompt = "Only if the user mentions connectivity issues, ask for their country and device before troubleshooting. Otherwise, respond normally."
+system_prompt = (
+    "Respond in as much detail as possible, with long, thorough explanations, examples, and step-by-step reasoning. "
+    "If the user mentions connectivity issues, ask for their country and device before troubleshooting. "
+    "Otherwise, respond with as much relevant information and explanation as possible."
+    "If you don't know the answer, say 'I don't know' instead of making something up."
+    "Always add article URL if available."
+)
 agent = ChatAgent(model=model, tools=[rag_tool], system_prompt=system_prompt)
