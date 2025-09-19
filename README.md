@@ -40,3 +40,13 @@ Flask-based web interface for the chatbot. Serves the HTML UI and exposes a /cha
 
 ### chainlit_ui.py
 ChainLit-based terminal UI for the chatbot. Handles incoming messages and routes them to the agent for responses.
+
+## Functionality test
+
+- 2 example conversations and answers from expected_answers.py file that we would like to get from the chatbot.
+
+### Example Conversation 1
+![Conversation 1](dokai/conv1.png)
+
+### Example Conversation 2
+![Conversation 2](dokai/conv2.png)
