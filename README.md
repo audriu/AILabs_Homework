@@ -50,3 +50,9 @@ ChainLit-based terminal UI for the chatbot. Handles incoming messages and routes
 
 ### Example Conversation 2
 ![Conversation 2](dokai/conv2.png)
+
+## Design Choices
+
+- **smolagents**: I took a course about it and wanted to try it in some practical application
+- **Ollama**: Easy to use. I have a GPU and I depleted my HuggingFace quota.
+- **Gemma3**: I tried several models and this one gave the ok results.
